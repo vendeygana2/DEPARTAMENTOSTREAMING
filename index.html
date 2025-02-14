@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT_onkeoskCL_6LMDHp59vSoPO81DhbB15C_w&s" type="image/x-icon">
+    <title>App con Botones</title>
+    <style>
+        body {
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            height: 100vh;
+            background-color: #f0f0f0;
+            font-family: Arial, sans-serif;
+            padding-top: 120px; /* Espacio para el contenedor de búsqueda fijo */
+        }
+        #search-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background-color: #f0f0f0;
+            padding: 20px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            text-align: center;
+        }
+        #search-container h2 {
+            font-size: 24px;
+            color: #333;
+            margin-bottom: 10px;
+        }
+        .search-input {
+            width: 300px;
+            padding: 10px;
+            font-size: 16px;
+            border: 2px solid #ccc;
+            border-radius: 25px;
+            outline: none;
+            transition: border-color 0.3s ease;
+        }
+        .search-input:focus {
+            border-color: orange;
+        }
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px; /* Espacio entre los botones */
+            margin-top: 20px; /* Espacio adicional para evitar solapamiento */
+        }
+        .button {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            width: 250px; /* Ancho rectangular */
+            height: 120px; /* Alto un poco mayor para el texto */
+            cursor: pointer;
+            border: none;
+            border-radius: 15px; /* Bordes redondeados */
+            background-color: black;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            padding: 10px; /* Espacio interno */
+        }
+        .button img {
+            max-width: 60%; /* Tamaño del logo reducido */
+            max-height: 60%;
+            margin-bottom: 10px; /* Espacio entre el logo y el texto */
+        }
+        .button:hover {
+            background-color: #333;
+            transform: scale(1.05);
+        }
+        .button-text {
+            font-size: 14px;
+            color: white; /* Texto en color blanco */
+            text-align: center;
+            white-space: nowrap;
+        }
+        /* Estilo específico para el botón de YouTube */
+        .button-youtube .button-text {
+            font-size: 12px; /* Tamaño de letra más pequeño */
+        }
+        .button-white {
+            background-color: white;
+            border: 3px solid orange;
+        }
+        .button-white img {
+            max-width: 60%;
+            max-height: 60%;
+            margin-bottom: 10px;
+        }
+        .button-white .button-text {
+            color: black; /* Texto en color negro para botones blancos */
+        }
+        @media (max-width: 768px) {
+            .button {
+                width: 200px;
+                height: 100px;
+            }
+            .button-text {
+                font-size: 12px;
+            }
+            .button-youtube .button-text {
+                font-size: 10px; /* Tamaño de letra más pequeño en móviles */
+            }
+        }
+        .close {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 30px;
+            cursor: pointer;
+            color: #333;
+        }
+        .close:hover {
+            color: orange;
+        }
+        /* Nuevo estilo para agrupar Netflix, Plex y Spotify */
+        .netflix-group {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px; /* Espacio entre los botones */
+        }
+        /* Estilo para el botón de regresar */
+        #return-button {
+            display: none; /* Oculto por defecto */
+            margin-top: 10px;
+            padding: 10px 20px;
+            font-size: 16px;
+            color: white;
+            background-color: orange;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        #return-button:hover {
+            background-color: darkorange;
+        }
+    </style>
+    <script>
+        function closeApp() {
+            window.close();
+        }
+
+        function searchService() {
+            const input = document.querySelector('.search-input').value.toLowerCase();
+            const buttons = document.querySelectorAll('.button');
+            buttons.forEach(button => {
+                const altText = button.querySelector('img').alt.toLowerCase();
+                if (altText.includes(input)) {
+                    button.style.display = 'flex';
+                } else {
+                    button.style.display = 'none';
+                }
+            });
+            // Mostrar el botón de regresar
+            document.getElementById('return-button').style.display = 'block';
+        }
+
+        function returnToMain() {
+            const buttons = document.querySelectorAll('.button');
+            buttons.forEach(button => {
+                button.style.display = 'flex';
+            });
+            // Ocultar el botón de regresar
+            document.getElementById('return-button').style.display = 'none';
+        }
+
+        function redirectTo(url) {
+            window.location.href = url;
+        }
+    </script>
+</head>
+<body>
+    <div class="close" onclick="closeApp()">&#10006;</div>
+    <div id="search-container">
+        <h2>Busca aquí lo que necesitas</h2>
+        <input type="text" class="search-input" placeholder="Escribe el nombre del servicio..." onkeyup="searchService()">
+        <!-- Botón de regresar debajo del campo de búsqueda -->
+        <button id="return-button" onclick="returnToMain()">REGRESAR A PANTALLA PRINCIPAL</button>
+    </div>
+    <div class="container">
+        <!-- Botón de TikTok -->
+        <div class="button button-black">
+            <img src="https://static.vecteezy.com/system/resources/previews/023/986/939/non_2x/tiktok-logo-tiktok-logo-transparent-tiktok-icon-transparent-free-free-png.png" alt="TikTok Logo">
+            <div class="button-text">SEGUIDORES, LIKE Y VISTAS</div>
+        </div>
+
+        <!-- Botón de YouTube -->
+        <div class="button button-black button-youtube">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/e/ef/Youtube_logo.png" alt="YouTube Logo">
+            <div class="button-text">REPRODUCCIONES, LIKES Y SEGUIDORES</div>
+        </div>
+
+        <!-- Botón de Instagram -->
+        <div class="button button-black">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e7/Instagram_logo_2016.svg/2048px-Instagram_logo_2016.svg.png" alt="Instagram Logo">
+            <div class="button-text">SEGUIDORES, LIKES Y COMENTARIOS</div>
+        </div>
+
+        <!-- Botón de Free Fire -->
+        <div class="button button-white" onclick="redirectTo('https://www.fluidforms.co/embed/form?id=679baa193eed3cad71fa2071')">
+            <img src="https://logodownload.org/wp-content/uploads/2018/09/free-fire-logo-2-1.png" alt="Free Fire Logo">
+        </div>
+
+        <!-- Grupo de Netflix, Plex y Spotify -->
+        <div class="netflix-group">
+            <div class="button">
+                <img src="https://static-00.iconduck.com/assets.00/plex-new-transparent-icon-2048x945-pafhbvdw.png" alt="Plex Logo">
+            </div>
+            <div class="button" onclick="redirectTo('https://vendeygana2.github.io/pruebanextflix/')">
+                <img src="https://cdn.worldvectorlogo.com/logos/netflix-3.svg" alt="Netflix Logo">
+            </div>
+            <div class="button" onclick="redirectTo('https://vendeygana2.github.io/SPOTI/')">
+                <img src="https://storage.googleapis.com/pr-newsroom-wp/1/2023/05/Spotify_Full_Logo_RGB_White.png" alt="Spotify Logo">
+            </div>
+        </div>
+
+        <!-- Resto de los botones -->
+        <div class="button" onclick="redirectTo('https://vendeygana2.github.io/comprapanaxtreaming/')">
+            <img src="https://dhgf5mcbrms62.cloudfront.net/110979006/header-fcHJMd/IVsTzWZ-200x200.webp" alt="PanaXstreaming Logo">
+        </div>
+        <div class="button" onclick="redirectTo('https://vendeygana2.github.io/compraflujotv/')">
+            <img src="https://flujotv.video/wp-content/uploads/2023/08/logo_flujotv_blanco-300x181.png" alt="FlujoTV Logo">
+        </div>
+        <div class="button button-white">
+            <img src="https://content-hub.wlp.app/vpn/wp-content/uploads/sites/2/2024/06/tela-latino-cuenta-completa-1mes-e1718293663105.jpg" alt="Tele Latino Logo">
+        </div>
+        <div class="button button-white" onclick="redirectTo('https://vendeygana2.github.io/COMPRADISNEY/')">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/Disney%2B_logo.svg/2560px-Disney%2B_logo.svg.png" alt="Disney+ Logo">
+        </div>
+        <div class="button button-white" onclick="redirectTo('https://vendeygana2.github.io/max1/')">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/c/ce/Max_logo.svg" alt="Max Logo">
+        </div>
+        <div class="button button-white" onclick="redirectTo('https://vendeygana2.github.io/compraprimevideo/')">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/11/Amazon_Prime_Video_logo.svg/2560px-Amazon_Prime_Video_logo.svg.png" alt="Amazon Prime Video Logo">
+        </div>
+        <div class="button button-white" onclick="redirectTo('https://vendeygana2.github.io/comprarcrunchyroll/')">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d6/Crunchyroll.svg/1024px-Crunchyroll.svg.png" alt="Crunchyroll Logo">
+        </div>
+        <div class="button button-white" onclick="redirectTo('https://vendeygana2.github.io/compraryotubepremium/')">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/dd/YouTube_Premium_logo.svg/1200px-YouTube_Premium_logo.svg.png" alt="YouTube Premium Logo">
+        </div>
+        <div class="button button-white" onclick="redirectTo('https://vendeygana2.github.io/COMPRACANVA/')">
+            <img src="https://1000marcas.net/wp-content/uploads/2020/01/Canva-logo.png" alt="Canva Logo">
+        </div>
+        <div class="button button-white" onclick="redirectTo('https://vendeygana2.github.io/compravix-/')">
+            <img src="https://static.wikia.nocookie.net/logopedia/images/0/07/Vix%2B.png/revision/latest/scale-to-width-down/284?cb=20230119232122" alt="Vix+ Logo">
+        </div>
+        <!-- Nuevo botón de Paramount+ -->
+        <div class="button button-white" onclick="redirectTo('https://vendeygana2.github.io/comprapramount/')">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/4/4e/Paramount%2B_logo.svg" alt="Paramount+ Logo">
+        </div>
+        <!-- Nuevo botón de Capcut -->
+        <div class="button button-white" onclick="redirectTo('https://vendeygana2.github.io/compracatcup/')">
+            <img src="https://cdn.worldvectorlogo.com/logos/capcut-symbol-logo-vector.svg" alt="Capcut Logo">
+        </div>
+        <!-- Nuevo botón de Apple TV -->
+        <div class="button button-white" onclick="redirectTo('https://vendeygana2.github.io/compraappletv/')">
+            <img src="https://1000marcas.net/wp-content/uploads/2022/02/Apple-TV-logo.png" alt="Apple TV Logo">
+        </div>
+        <!-- Nuevo botón de Rakuten Viki -->
+        <div class="button button-white" onclick="redirectTo('https://vendeygana2.github.io/rakutenbiki/')">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/d/d9/Rakuten_Viki_Logo_2019.svg" alt="Rakuten Viki Logo">
+        </div>
+        <!-- Nuevo botón de Office 365 -->
+        <div class="button button-white" onclick="redirectTo('https://vendeygana2.github.io/OFFICE/')">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/4/49/Office_365_logo_%282013-2019%29.png" alt="Office 365 Logo">
+        </div>
+    </div>
+</body>
+</html>
